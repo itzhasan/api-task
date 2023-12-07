@@ -16,7 +16,7 @@ app.get("/", (req, res) => {
 //all users
 app.get("/users", (req, res) => {
 
-  let {city, first ,last} = req.query.city
+  let {city, first ,last} = req.query
 
 
   if(city){
