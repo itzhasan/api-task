@@ -9,13 +9,17 @@ const data = fs.readFileSync("./users.json", "utf8");
 const users = JSON.parse(data);
 
 
-//all users
 app.get("/", (req, res) => {
+  res.send("Hello world");
+});
+
+//all users
+app.get("/users", (req, res) => {
   res.send(users);
 });
 
 //first user
-app.get("/first", (req, res) => {
+app.get("/users/first", (req, res) => {
     res.send(users[0]);
 });
 
@@ -25,34 +29,34 @@ app.get("/last", (req, res) => {
     res.send(lastuser);
   });
 
- app.get("/:id", (req, res) => {
+ app.get("users/:id", (req, res) => {
   const id = req.params.id;
   const user = users.find((el) => el.id === parseInt(id));
   res.send(user);
 });
 // get user by city
-app.get("/city/:city", (req, res) => {
+app.get("users/city/:city", (req, res) => {
     let city = req.params.city;
     let usersInCity = users.filter((el) => el.address && el.address.city === city);
     res.send(usersInCity);
   });
   
   //get user by company
-  app.get("/company/:company", (req, res) => {
+  app.get("users/company/:company", (req, res) => {
     let company = req.params.company;
     let usersInCompany = users.filter((el) => el.company && el.company.name === company);
     res.send(usersInCompany);
   })
 
   // get street by id
-  app.get("/:id/street", (req, res) => {
+  app.get("users/:id/street", (req, res) => {
     let id = req.params.id;
     let user = users.find((el) => el.id === parseInt(id));
     res.send(user.address.street);
   });
 
   // add new user
-app.post("/adduser", (req, res) => {
+app.post("users/adduser", (req, res) => {
     let name = req.body.name;
     let age = req.body.age;
   
@@ -63,7 +67,7 @@ app.post("/adduser", (req, res) => {
     res.send({ success: true });
   });
   // update user
-  app.put("/usersupdate/:id", (req, res) => {
+  app.put("users/usersupdate/:id", (req, res) => {
     let id = req.params.id;
     let name = req.body.name;
     let age = req.body.age;
