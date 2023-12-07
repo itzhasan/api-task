@@ -15,32 +15,37 @@ app.get("/", (req, res) => {
 
 //all users
 app.get("/users", (req, res) => {
+
+  let {city, first ,last} = req.query.city
+
+
+  if(city){
+    let usersInCity = users.filter((el) => el.address && el.address.city === city);
+    res.send(usersInCity);
+  }
+
+  if(first){
+    res.send(users[0]);
+  }
+  
+
+  if(last){
+    const lastuser = users[users.length - 1];
+    res.send(lastuser);
+
+  }
+  
   res.send(users);
 });
 
-//first user
-app.get("/users/first", (req, res) => {
-    res.send(users[0]);
-});
 
-//last user
-app.get("/last", (req, res) => {
-    const lastuser = users[users.length - 1];
-    res.send(lastuser);
-  });
 
  app.get("users/:id", (req, res) => {
   const id = req.params.id;
   const user = users.find((el) => el.id === parseInt(id));
   res.send(user);
 });
-// get user by city
-app.get("users/city/:city", (req, res) => {
-    let city = req.params.city;
-    let usersInCity = users.filter((el) => el.address && el.address.city === city);
-    res.send(usersInCity);
-  });
-  
+
   //get user by company
   app.get("users/company/:company", (req, res) => {
     let company = req.params.company;
